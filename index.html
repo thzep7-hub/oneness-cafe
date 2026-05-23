@@ -1,0 +1,2053 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Oneness Café Berlin · Prenzlauer Berg</title>
+  <link href="fonts/fonts.css" rel="stylesheet">
+  <link rel="stylesheet" href="fontawesome/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #1a0e07;
+      --surface-1:    rgba(255, 245, 230, 0.03);
+      --surface-2:    rgba(255, 245, 230, 0.06);
+      --surface-3:    rgba(255, 245, 230, 0.10);
+      --border:       rgba(255, 245, 230, 0.08);
+      --border-hi:    rgba(201, 169, 110, 0.25);
+      --text-1:       #f5f0e8;
+      --text-2:       rgba(245, 240, 232, 0.65);
+      --text-3:       rgba(245, 240, 232, 0.38);
+      --accent:       #c9a96e;
+      --accent-glow:  rgba(201, 169, 110, 0.30);
+      --accent-soft:  rgba(201, 169, 110, 0.08);
+      --accent-2:     #8a9e7e;
+      --accent-2-glow: rgba(138, 158, 126, 0.25);
+      --accent-2-soft: rgba(138, 158, 126, 0.07);
+      --caramel:      #b07d4a;
+      --cream:        #f5f0e8;
+      --ease:         cubic-bezier(0.4, 0, 0.2, 1);
+      --t-fast:       0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      --t-base:       0.3s  cubic-bezier(0.4, 0, 0.2, 1);
+      --t-slow:       0.6s  cubic-bezier(0.4, 0, 0.2, 1);
+
+      --text-display: clamp(3.2rem, 9vw, 7.5rem);
+      --text-h1:      clamp(2.2rem, 5vw, 4.2rem);
+      --text-h2:      clamp(1.6rem, 3.5vw, 2.8rem);
+      --text-h3:      clamp(1.1rem, 2vw, 1.4rem);
+      --text-body:    clamp(0.95rem, 1.5vw, 1.05rem);
+      --text-sm:      0.85rem;
+      --text-xs:      0.72rem;
+
+      --space-2xs: 0.25rem;
+      --space-xs:  0.5rem;
+      --space-sm:  1rem;
+      --space-md:  2rem;
+      --space-lg:  4rem;
+      --space-xl:  7rem;
+      --space-2xl: 11rem;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-1);
+      font-family: 'DM Sans', sans-serif;
+      font-size: var(--text-body);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.35;
+      mix-blend-mode: overlay;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--space-md);
+    }
+
+    /* ── Reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: var(--t-base);
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      box-shadow: 0 0 30px var(--accent-glow);
+      animation: glowPulse 3s ease infinite;
+    }
+    .btn-primary:hover {
+      background: #d4b47a;
+      transform: translateY(-2px);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-1);
+      border: 1px solid var(--border-hi);
+    }
+    .btn-ghost:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 0 20px var(--accent-glow); }
+      50%       { box-shadow: 0 0 50px var(--accent-glow), 0 0 80px var(--accent-glow); }
+    }
+
+    /* ─────────────────────────────────────────
+       NAVIGATION
+    ───────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.25rem var(--space-md);
+      background: rgba(26, 14, 7, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--t-base);
+      border-bottom: 1px solid transparent;
+    }
+    .nav.scrolled {
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-2);
+      text-decoration: none;
+      font-size: var(--text-sm);
+      letter-spacing: 0.03em;
+      transition: var(--t-fast);
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-1);
+      font-size: 1.3rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      transition: var(--t-fast);
+    }
+    .hamburger:hover { color: var(--accent); }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(26, 14, 7, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--text-1);
+      text-decoration: none;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      transition: var(--t-fast);
+    }
+    .mobile-menu a:hover { color: var(--accent); }
+    .mobile-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      color: var(--text-2);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: var(--t-fast);
+    }
+    .mobile-close:hover { color: var(--accent); }
+
+    /* ─────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 3rem;
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 0%, var(--accent-soft), transparent 65%),
+        radial-gradient(ellipse 50% 40% at 80% 90%, var(--accent-2-soft), transparent 60%),
+        var(--bg);
+      background-size: 200% 200%;
+      animation: bgShift 18s ease infinite;
+    }
+    @keyframes bgShift {
+      0%   { background-position: 0% 0%; }
+      50%  { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
+    }
+    .hero-orb-gold {
+      position: absolute;
+      top: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(201,169,110,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-orb-sage {
+      position: absolute;
+      bottom: 5%;
+      right: -10%;
+      width: 500px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(138,158,126,0.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 860px;
+      padding: 0 var(--space-md);
+    }
+    .hero-eyebrow {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: var(--text-sm);
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s var(--ease) 0.1s forwards;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: var(--text-display);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s var(--ease) 0.25s forwards;
+    }
+    .hero-gold {
+      background: linear-gradient(135deg, #c9a96e, #e8c98a, #c9a96e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-style: italic;
+    }
+    .hero-sub {
+      font-size: var(--text-h3);
+      color: var(--text-2);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+      font-weight: 300;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s var(--ease) 0.4s forwards;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s var(--ease) 0.55s forwards;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--text-3);
+      font-size: 1.1rem;
+      animation: bounce 2.2s ease infinite;
+      z-index: 2;
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ─────────────────────────────────────────
+       ABOUT
+    ───────────────────────────────────────── */
+    .about {
+      padding: var(--space-xl) 0;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-lg);
+      align-items: center;
+    }
+    .section-label {
+      font-size: var(--text-xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    .about h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: var(--text-h2);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+    .about p {
+      color: var(--text-2);
+      margin-bottom: 1.2rem;
+      line-height: 1.8;
+    }
+    .trust-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--surface-2);
+      border: 1px solid var(--border-hi);
+      border-radius: 50px;
+      font-size: var(--text-xs);
+      letter-spacing: 0.08em;
+      color: var(--text-2);
+    }
+    .badge i { color: var(--accent); font-size: 0.7rem; }
+
+    .about-visual {
+      position: relative;
+      height: 480px;
+    }
+    .glass-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .card-large {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 75%;
+      height: 340px;
+      background: linear-gradient(135deg, rgba(61,37,18,0.9), rgba(107,61,34,0.8));
+      border: 1px solid var(--border-hi);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .card-large i {
+      font-size: 7rem;
+      color: var(--accent);
+      filter: drop-shadow(0 0 30px var(--accent-glow));
+    }
+    .card-large span {
+      color: var(--text-3);
+      font-size: var(--text-sm);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .card-small {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 55%;
+      height: 200px;
+      background: linear-gradient(135deg, rgba(20,35,22,0.9), rgba(40,65,38,0.8));
+      border: 1px solid rgba(138,158,126,0.25);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .card-small i {
+      font-size: 4rem;
+      color: var(--accent-2);
+      filter: drop-shadow(0 0 20px var(--accent-2-glow));
+    }
+    .card-small span {
+      color: var(--text-3);
+      font-size: var(--text-xs);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .floating-badge {
+      position: absolute;
+      bottom: 160px;
+      left: 48%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: var(--bg);
+      padding: 0.5rem 1.1rem;
+      border-radius: 50px;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+      box-shadow: 0 4px 20px var(--accent-glow);
+      z-index: 2;
+    }
+
+    /* ─────────────────────────────────────────
+       HIGHLIGHTS
+    ───────────────────────────────────────── */
+    .highlights {
+      padding: var(--space-xl) 0;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: var(--space-lg);
+    }
+    .section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: var(--text-h2);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-top: 0.75rem;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .feature-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 2rem;
+      transition: var(--t-base);
+    }
+    .feature-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border-hi);
+      box-shadow: 0 20px 60px var(--accent-glow);
+    }
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      border: 1px solid var(--border-hi);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+    .feature-icon i { color: var(--accent); font-size: 1.1rem; }
+    .feature-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: var(--text-h3);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.01em;
+    }
+    .feature-card p { color: var(--text-2); font-size: var(--text-sm); line-height: 1.7; }
+
+    /* ─────────────────────────────────────────
+       MENU TEASER
+    ───────────────────────────────────────── */
+    .menu-teaser {
+      padding: var(--space-xl) 0;
+    }
+    .menu-teaser-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .menu-tile {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-left: 3px solid transparent;
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: var(--t-base);
+    }
+    .menu-tile:hover {
+      border-left-color: var(--accent);
+      background: var(--surface-3);
+    }
+    .menu-tile i {
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+    }
+    .menu-tile h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: var(--text-h3);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .menu-tile p { color: var(--text-2); font-size: var(--text-sm); line-height: 1.7; }
+
+    /* ─────────────────────────────────────────
+       REVIEWS
+    ───────────────────────────────────────── */
+    .reviews {
+      padding: var(--space-xl) 0;
+      overflow: hidden;
+    }
+    .marquee-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-top: var(--space-lg);
+    }
+    .marquee-row {
+      display: flex;
+      overflow: hidden;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 1.25rem;
+      flex-shrink: 0;
+    }
+    .marquee-row-1 .marquee-track {
+      animation: marqueeLeft 50s linear infinite;
+    }
+    .marquee-row-2 .marquee-track {
+      animation: marqueeRight 50s linear infinite;
+    }
+    @keyframes marqueeLeft {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes marqueeRight {
+      from { transform: translateX(-50%); }
+      to   { transform: translateX(0); }
+    }
+    .review-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 1.75rem;
+      min-width: 320px;
+      max-width: 380px;
+      flex-shrink: 0;
+    }
+    .review-quote-icon {
+      color: var(--accent);
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .review-text {
+      color: var(--text-2);
+      font-size: var(--text-sm);
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+    }
+    .review-stars {
+      display: flex;
+      gap: 0.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .review-stars i { color: var(--accent); font-size: 0.75rem; }
+    .review-stars i.empty { color: var(--text-3); }
+    .review-author {
+      color: var(--text-3);
+      font-size: var(--text-xs);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─────────────────────────────────────────
+       HOURS + CONTACT
+    ───────────────────────────────────────── */
+    .hours-contact {
+      padding: var(--space-xl) 0;
+    }
+    .hours-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-lg);
+    }
+    .hours-card, .contact-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      padding: 3rem;
+    }
+    .hours-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    .hours-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: var(--text-h2);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .hours-header i { color: var(--accent); font-size: 1.3rem; }
+    .hours-table { width: 100%; border-collapse: collapse; }
+    .hours-table tr { border-bottom: 1px solid var(--border); }
+    .hours-table tr:last-child { border-bottom: none; }
+    .hours-table td {
+      padding: 0.9rem 0;
+      font-size: var(--text-sm);
+    }
+    .hours-table td:first-child { color: var(--text-2); }
+    .hours-table td:last-child { text-align: right; }
+    .time-open {
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.5rem;
+    }
+    .open-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4caf50;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .closed-badge {
+      display: inline-block;
+      background: rgba(180, 60, 60, 0.15);
+      color: #e57373;
+      border: 1px solid rgba(180, 60, 60, 0.2);
+      border-radius: 50px;
+      padding: 0.2rem 0.7rem;
+      font-size: var(--text-xs);
+      letter-spacing: 0.05em;
+    }
+    .contact-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: var(--text-h2);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+    }
+    .contact-items { display: flex; flex-direction: column; gap: 1.5rem; }
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      border: 1px solid var(--border-hi);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-icon i { color: var(--accent); font-size: 0.9rem; }
+    .contact-info label {
+      display: block;
+      font-size: var(--text-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 0.2rem;
+    }
+    .contact-info a, .contact-info span {
+      color: var(--text-1);
+      text-decoration: none;
+      font-size: var(--text-sm);
+      transition: var(--t-fast);
+    }
+    .contact-info a:hover { color: var(--accent); }
+
+    /* ─────────────────────────────────────────
+       CTA
+    ───────────────────────────────────────── */
+    .cta-section {
+      padding: var(--space-xl) 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 50%, rgba(201,169,110,0.12), transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 20%, rgba(138,158,126,0.08), transparent 60%),
+        var(--bg);
+    }
+    .cta-orb-gold {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(201,169,110,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-orb-sage {
+      position: absolute;
+      top: 20%;
+      right: -5%;
+      width: 400px;
+      height: 300px;
+      background: radial-gradient(ellipse, rgba(138,158,126,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-content {
+      position: relative;
+      z-index: 2;
+    }
+    .cta-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: var(--text-h1);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+    .cta-gold {
+      font-style: italic;
+      background: linear-gradient(135deg, #c9a96e, #e8c98a, #c9a96e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .cta-sub {
+      color: var(--text-2);
+      font-size: var(--text-h3);
+      max-width: 500px;
+      margin: 0 auto 2.5rem;
+      font-weight: 300;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ─────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────── */
+    .footer {
+      background: #0e0805;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      display: block;
+      margin-bottom: 1.5rem;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.75rem;
+      margin-bottom: 1.75rem;
+    }
+    .footer-links a {
+      color: var(--text-2);
+      font-size: 1.1rem;
+      text-decoration: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--t-base);
+    }
+    .footer-links a:hover {
+      color: var(--accent);
+      border-color: var(--border-hi);
+      background: var(--accent-soft);
+    }
+    .footer-copy {
+      color: var(--text-3);
+      font-size: var(--text-xs);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-visual { height: 360px; order: -1; }
+      .menu-teaser-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links        { display: none; }
+      .hamburger        { display: flex; }
+      .hours-grid       { grid-template-columns: 1fr; gap: var(--space-lg); }
+      .features-grid    { grid-template-columns: 1fr; }
+      .menu-teaser-grid { grid-template-columns: 1fr; }
+      section           { padding: var(--space-lg) 0; }
+      .container        { padding: 0 1.25rem; }
+      .hero-cta         { flex-direction: column; align-items: center; }
+      .hours-card, .contact-card { padding: 2rem 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .reviews-row { gap: 1rem; }
+      .trust-badges { flex-direction: column; align-items: flex-start; }
+      .about-visual { height: 300px; }
+      .card-large { width: 80%; height: 260px; }
+      .card-large i { font-size: 5rem; }
+    }
+
+    /* ─────────────────────────────────────────
+       CMS ADMIN PANEL
+    ───────────────────────────────────────── */
+    #cms-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 5, 2, 0.90);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .cms-panel {
+      background: #1e110a;
+      border: 1px solid var(--border-hi);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 60px var(--accent-glow);
+    }
+    .cms-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.4rem 1.75rem;
+      border-bottom: 1px solid var(--border);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--accent);
+      letter-spacing: -0.01em;
+      flex-shrink: 0;
+    }
+    .cms-header i { margin-right: 0.6rem; }
+    .cms-close {
+      background: none;
+      border: none;
+      color: var(--text-3);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: var(--t-fast);
+      padding: 0.3rem;
+      line-height: 1;
+    }
+    .cms-close:hover { color: var(--text-1); }
+    .cms-tabs {
+      display: flex;
+      padding: 0 1.75rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-1);
+      flex-shrink: 0;
+    }
+    .cms-tab {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-3);
+      font-family: 'DM Sans', sans-serif;
+      font-size: var(--text-sm);
+      padding: 0.9rem 1.25rem;
+      cursor: pointer;
+      margin-bottom: -1px;
+      transition: var(--t-fast);
+      letter-spacing: 0.02em;
+    }
+    .cms-tab:hover { color: var(--text-2); }
+    .cms-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .cms-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.75rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-hi) transparent;
+    }
+    .cms-section { display: none; }
+    .cms-section.active { display: block; }
+    .cms-field { margin-bottom: 1.4rem; }
+    .cms-field > label {
+      display: block;
+      font-size: var(--text-xs);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    .cms-field input[type="text"],
+    .cms-field input[type="url"],
+    .cms-field textarea {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-1);
+      font-family: 'DM Sans', sans-serif;
+      font-size: var(--text-sm);
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: var(--t-fast);
+      resize: vertical;
+      line-height: 1.6;
+    }
+    .cms-field input:focus,
+    .cms-field textarea:focus {
+      border-color: var(--accent);
+      background: var(--surface-3);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .cms-field input::placeholder,
+    .cms-field textarea::placeholder { color: var(--text-3); }
+    .cms-hint {
+      font-size: var(--text-xs);
+      color: var(--text-3);
+      margin-top: 0.4rem;
+      line-height: 1.5;
+    }
+    .cms-hours-row {
+      display: grid;
+      grid-template-columns: 115px 50px 1fr;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .cms-hours-row:last-child { border-bottom: none; }
+    .cms-day-label { font-size: var(--text-sm); color: var(--text-2); }
+    .cms-toggle {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .cms-toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .cms-toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: var(--surface-3);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      transition: var(--t-base);
+    }
+    .cms-toggle-slider::before {
+      content: '';
+      position: absolute;
+      width: 16px; height: 16px;
+      left: 3px; bottom: 3px;
+      background: var(--text-3);
+      border-radius: 50%;
+      transition: var(--t-base);
+    }
+    .cms-toggle input:checked + .cms-toggle-slider {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+    }
+    .cms-toggle input:checked + .cms-toggle-slider::before {
+      transform: translateX(20px);
+      background: var(--accent);
+    }
+    .cms-time-input {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-1);
+      font-family: 'DM Sans', sans-serif;
+      font-size: var(--text-sm);
+      padding: 0.5rem 0.75rem;
+      outline: none;
+      transition: var(--t-fast);
+      width: 100%;
+    }
+    .cms-time-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .cms-time-input:disabled { opacity: 0.25; cursor: not-allowed; }
+    .cms-actions {
+      display: flex;
+      gap: 0.75rem;
+      padding: 1.25rem 1.75rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface-1);
+      flex-shrink: 0;
+    }
+    .cms-btn-save {
+      flex: 1;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 50px;
+      padding: 0.8rem 1.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--t-fast);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .cms-btn-save:hover { background: #d4b47a; }
+    .cms-btn-cancel {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      color: var(--text-2);
+      padding: 0.8rem 1.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: var(--text-sm);
+      cursor: pointer;
+      transition: var(--t-fast);
+    }
+    .cms-btn-cancel:hover { border-color: var(--border-hi); color: var(--text-1); }
+    #cms-toast {
+      position: fixed;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(1.5rem);
+      background: var(--accent);
+      color: var(--bg);
+      padding: 0.7rem 2rem;
+      border-radius: 50px;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      opacity: 0;
+      transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+      pointer-events: none;
+      z-index: 10002;
+    }
+    #cms-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    #cms-trigger { cursor: default; user-select: none; }
+    @media (max-width: 600px) {
+      .cms-hours-row { grid-template-columns: 95px 46px 1fr; gap: 0.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="mainNav">
+    <a href="#" class="nav-logo">Oneness Caf&eacute;</a>
+    <ul class="nav-links">
+      <li><a href="#about">Über uns</a></li>
+      <li><a href="#highlights">Highlights</a></li>
+      <li><a href="#reviews">Bewertungen</a></li>
+      <li><a href="#hours">Öffnungszeiten</a></li>
+      <li><a href="#contact">Kontakt</a></li>
+    </ul>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menü öffnen">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose" aria-label="Menü schließen">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <a href="#about" class="mobile-link">Über uns</a>
+    <a href="#highlights" class="mobile-link">Highlights</a>
+    <a href="#reviews" class="mobile-link">Bewertungen</a>
+    <a href="#hours" class="mobile-link">Öffnungszeiten</a>
+    <a href="#contact" class="mobile-link">Kontakt</a>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-orb-gold"></div>
+    <div class="hero-orb-sage"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Prenzlauer Berg &middot; Berlin</p>
+      <h1>
+        The<br>
+        <span class="hero-gold">Oneness</span><br>
+        Café
+      </h1>
+      <p class="hero-sub" id="cms-hero-sub">Ein Ort voller Herzwärme, Stille &amp; außergewöhnlichem Kaffee</p>
+      <div class="hero-cta">
+        <a href="https://maps.app.goo.gl/krN8ARBoWcPmcat76" class="btn btn-primary" target="_blank" rel="noopener">
+          <i class="fa-solid fa-route"></i> Route planen
+        </a>
+        <a href="https://www.instagram.com/the_oneness_cafe_berlin" class="btn btn-ghost" target="_blank" rel="noopener">
+          <i class="fa-brands fa-instagram"></i> Instagram
+        </a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text">
+          <p class="section-label reveal" data-delay="0">Unser Versprechen</p>
+          <h2 class="reveal" data-delay="1">Mit Liebe gemacht.<br>Mit Seele serviert.</h2>
+          <p class="reveal" data-delay="2" id="cms-about-p1">
+            Das Oneness Café ist mehr als ein Ort für Kaffee und Kuchen. Es ist ein Refugium mitten in Prenzlauer Berg — ein Ort, an dem du ankommen darfst. Wo jede Tasse mit Sorgfalt zubereitet wird und jedes Stück Kuchen von Herzen kommt.
+          </p>
+          <p class="reveal" data-delay="3" id="cms-about-p2">
+            Seit 2022 empfangen wir unsere Gäste mit Wärme, Stille und ehrlichem Handwerk. Kein Trend, kein Lärm — nur das Wesentliche: ein außergewöhnlicher Kaffee, hausgemachte Backwaren und ein Lächeln, das echt ist.
+          </p>
+          <div class="trust-badges reveal" data-delay="4">
+            <span class="badge"><i class="fa-solid fa-circle-check"></i> Hausgemacht</span>
+            <span class="badge"><i class="fa-solid fa-circle-check"></i> Herzlicher Empfang</span>
+            <span class="badge"><i class="fa-solid fa-circle-check"></i> Seit 2022</span>
+          </div>
+        </div>
+        <div class="about-visual reveal" data-delay="2">
+          <div class="card-large glass-card">
+            <i class="fa-solid fa-mug-hot"></i>
+            <span>Außergewöhnlicher Kaffee</span>
+          </div>
+          <div class="card-small">
+            <i class="fa-solid fa-cake-candles"></i>
+            <span>Hausgemachte Kuchen</span>
+          </div>
+          <div class="floating-badge">
+            <i class="fa-solid fa-star"></i> 10/10 Kaffee
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Highlights -->
+  <section class="highlights" id="highlights">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label reveal" data-delay="0">Was uns besonders macht</p>
+        <h2 class="reveal" data-delay="1">Sechs Gründe, uns zu besuchen</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card reveal" data-delay="0">
+          <div class="feature-icon"><i class="fa-solid fa-leaf"></i></div>
+          <h3>Ruhige Oase</h3>
+          <p>Mitten im Prenzlauer Berg und doch weit weg vom Trubel. Der perfekte Ort zum Durchatmen.</p>
+        </div>
+        <div class="feature-card reveal" data-delay="1">
+          <div class="feature-icon"><i class="fa-solid fa-sun"></i></div>
+          <h3>Sonnige Terrasse</h3>
+          <p>Draußen sitzen, die Sonne genießen und einfach sein — unser Außenbereich lädt zum Verweilen ein.</p>
+        </div>
+        <div class="feature-card reveal" data-delay="2">
+          <div class="feature-icon"><i class="fa-solid fa-cake-candles"></i></div>
+          <h3>Hausgemachte Kuchen</h3>
+          <p>Unbedingt: der legendäre Beeren-Nusskuchen. Jedes Stück ein kleines Kunstwerk.</p>
+        </div>
+        <div class="feature-card reveal" data-delay="3">
+          <div class="feature-icon"><i class="fa-solid fa-heart"></i></div>
+          <h3>Herzlicher Empfang</h3>
+          <p>Du wirst nicht bedient — du wirst willkommen geheißen. Das ist der Unterschied.</p>
+        </div>
+        <div class="feature-card reveal" data-delay="4">
+          <div class="feature-icon"><i class="fa-solid fa-martini-glass-citrus"></i></div>
+          <h3>Alkoholfreie Cocktails</h3>
+          <p>Mit Herzenswärme zubereitet. Kreativ, frisch und überraschend — für jeden Geschmack.</p>
+        </div>
+        <div class="feature-card reveal" data-delay="5">
+          <div class="feature-icon"><i class="fa-solid fa-mug-hot"></i></div>
+          <h3>Außergewöhnlicher Kaffee</h3>
+          <p>Sorgfältig zubereiteter Kaffee, der einfach gut ist. Kein Trend — nur Qualität in jeder Tasse.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu Teaser -->
+  <section class="menu-teaser" id="menu">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label reveal" data-delay="0">Was wir servieren</p>
+        <h2 class="reveal" data-delay="1">Kleine Auswahl, große Freude</h2>
+      </div>
+      <div class="menu-teaser-grid">
+        <div class="menu-tile reveal" data-delay="0">
+          <i class="fa-solid fa-mug-hot"></i>
+          <h3>Kaffee &amp; Getränke</h3>
+          <p>Espresso, Cappuccino, Filterkaffee — und alkoholfreie Kreationen mit Herz.</p>
+        </div>
+        <div class="menu-tile reveal" data-delay="1">
+          <i class="fa-solid fa-cake-candles"></i>
+          <h3>Kuchen &amp; Backwaren</h3>
+          <p>Täglich frisch. Der Beeren-Nusskuchen ist Pflicht.</p>
+        </div>
+        <div class="menu-tile reveal" data-delay="2">
+          <i class="fa-solid fa-leaf"></i>
+          <h3>Ruhige Momente</h3>
+          <p>Tee, Stille und Zeit. Für alle, die einfach ankommen wollen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="reviews" id="reviews">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label reveal" data-delay="0">Was Gäste sagen</p>
+        <h2 class="reveal" data-delay="1">Stimmen aus dem Kiez</h2>
+      </div>
+    </div>
+    <div class="marquee-wrapper">
+
+      <!-- Row 1 — scrolls left (reviews 1–13) -->
+      <div class="marquee-row marquee-row-1">
+        <div class="marquee-track">
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Eine wunderschöne kleine Oase! Super lecker, super Service und super entspannte Atmosphäre – absolute Empfehlung!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Luisa Bergholz</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Wundervolles Café! Liebevolle und durchdachte Gestaltung und eine Atmosphäre, durch die man sich sofort willkommen fühlt. Die Mitarbeitenden sind außerordentlich hilfsbereit, gastfreundlich und erklären bei Nachfragen alles.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Sophia Ginter</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ein gemütlich süßes Café und eine herzliche Bedienung.... die Getränke sind alle voll lecker! Es gibt auch Kuchen und sogar herzhafte Sachen zum schmecken lassen!! Mein neues Lieblingscafé!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— David Peschke</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Dieses Café ist der perfekte Anlass für einen kurzen Abstecher mit der S-Bahn. Fünf Sterne für die Gastfreundschaft, den Espresso und das Pistaziencroissant!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Justus Hoen</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Eines der besten Cafés in der Gegend. Sehr empfehlenswert.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Harsh Kaushik</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Wow, einfach wow!!!!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Natalie Smolcic</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ich war mit meiner Freundin dort, wir hatten ein tolles Erlebnis, das Essen war wirklich gut, und die Getränke auch, besonders der Ashwagandha Latte und der Bio-Chai Latte – 10/10 absolut empfehlenswert.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Aditya Dixit</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ich bin ein großer Fan von Matcha Latte und muss sagen, dass es wirklich fantastisch war und eine tolle Atmosphäre hatte.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Akshay Bhardwaj</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ich bin wegen der vielen 5-Sterne-Bewertungen auf einen Kaffee vorbeigekommen und war etwas skeptisch. Der Kaffee schmeckt gut und ist ausgewogen. Das Café ist warm und gemütlich, und die Mitarbeiter sind freundlich.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Sophia Forte</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ein sehr hübsches kleines Café mit netten Leuten. Wir bestellten ein zerdrücktes Croissant und mehrere Lattes, und alles war köstlich.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Zendetta Alhamad</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ein gemütlicher Ort für guten Kaffee und kleine Snacks. Ich freue mich schon auf den Sommer und bin gespannt, wie sie die Außengastronomie mit Sitzplätzen auf dem Bürgersteig ausbauen werden.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Natabara R.</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Süßes kleines Café gemütlich eingerichtet mit angenehmen Preisen.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Emely Becker</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Sehr nettes und hilfsbereites Personal, wunderschönes Interieur und – das Wichtigste – fantastischer Kaffee und ein köstliches Frühstück! Alles wird selbst zubereitet und schmeckt wirklich lecker.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Karina</p>
+          </div>
+          <!-- Duplicate for seamless loop -->
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Eine wunderschöne kleine Oase! Super lecker, super Service und super entspannte Atmosphäre – absolute Empfehlung!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Luisa Bergholz</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Wundervolles Café! Liebevolle und durchdachte Gestaltung und eine Atmosphäre, durch die man sich sofort willkommen fühlt. Die Mitarbeitenden sind außerordentlich hilfsbereit, gastfreundlich und erklären bei Nachfragen alles.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Sophia Ginter</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ein gemütlich süßes Café und eine herzliche Bedienung.... die Getränke sind alle voll lecker! Es gibt auch Kuchen und sogar herzhafte Sachen zum schmecken lassen!! Mein neues Lieblingscafé!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— David Peschke</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Dieses Café ist der perfekte Anlass für einen kurzen Abstecher mit der S-Bahn. Fünf Sterne für die Gastfreundschaft, den Espresso und das Pistaziencroissant!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Justus Hoen</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Eines der besten Cafés in der Gegend. Sehr empfehlenswert.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Harsh Kaushik</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Wow, einfach wow!!!!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Natalie Smolcic</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ich war mit meiner Freundin dort, wir hatten ein tolles Erlebnis, das Essen war wirklich gut, und die Getränke auch, besonders der Ashwagandha Latte und der Bio-Chai Latte – 10/10 absolut empfehlenswert.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Aditya Dixit</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ich bin ein großer Fan von Matcha Latte und muss sagen, dass es wirklich fantastisch war und eine tolle Atmosphäre hatte.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Akshay Bhardwaj</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ich bin wegen der vielen 5-Sterne-Bewertungen auf einen Kaffee vorbeigekommen und war etwas skeptisch. Der Kaffee schmeckt gut und ist ausgewogen. Das Café ist warm und gemütlich, und die Mitarbeiter sind freundlich.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Sophia Forte</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ein sehr hübsches kleines Café mit netten Leuten. Wir bestellten ein zerdrücktes Croissant und mehrere Lattes, und alles war köstlich.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Zendetta Alhamad</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ein gemütlicher Ort für guten Kaffee und kleine Snacks. Ich freue mich schon auf den Sommer und bin gespannt, wie sie die Außengastronomie mit Sitzplätzen auf dem Bürgersteig ausbauen werden.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Natabara R.</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Süßes kleines Café gemütlich eingerichtet mit angenehmen Preisen.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Emely Becker</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Sehr nettes und hilfsbereites Personal, wunderschönes Interieur und – das Wichtigste – fantastischer Kaffee und ein köstliches Frühstück! Alles wird selbst zubereitet und schmeckt wirklich lecker.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Karina</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2 — scrolls right (reviews 14–25) -->
+      <div class="marquee-row marquee-row-2">
+        <div class="marquee-track">
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Absolut empfehlenswert! Super Kaffee, noch besseres Essen und überaus freundliches Personal. Ich freue mich schon auf meinen nächsten Besuch!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— K. Niehaus</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Es ist wirklich das EINHEITS-Café! Du nährst Körper, Geist und Seele! Inspirierend, vielversprechend und das ganze Jahr über wie ein Frühling!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Milos Kosti&#263;</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Wirklich schön und gemütlich. Ein Muss für Kaffeeliebhaber. Auch die Desserts sind sehr ausgewogen. Mir gefällt es dort sehr gut.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Nida Akhtar</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ich liebe dieses Café! Die Mitarbeiter sind unglaublich nett und hilfsbereit. Die Atmosphäre ist einfach toll. Ich habe Matcha, Kaffee und Croissant probiert und war begeistert! Unbedingt hingehen, wenn man einen entspannten, ruhigen Ort für einen Kaffee sucht.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Oscar Barrios</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Sehr lecker Burger und Kaffee!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Galya Klimenchuk</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ein super süßes Café mit leckerem Kaffee und nettem Personal. Besonders hervorzuheben sind die kleinen, aber feinen Details, wie zum Beispiel ein großzügiges Glas Eiswürfel zu den abgefüllten Kaltgetränken.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Ditte Østergaard</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Habe mich rundum wohl gefühlt. Man fühlt sich sehr wohl. Man wird herzlichst empfangen... man kann nette Gespräche führen und man fühlt sich einfach entspannt.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Lars Peschke</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ein Ruhepol mit besonderer Atmosphäre. Die ayurvedische Limonade ist der Hit, unglaublich lecker und besonders. Bei den Kuchen ist einer besser als der andere, man merkt, dass hier mit guten Zutaten gearbeitet wird und mit viel Liebe gebacken wird – ich komme auf jeden Fall wieder.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Claudia Dietl</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Sowas von gemütlich und herzlich wie ich es in Berlin noch nie erlebt habe!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Natali Olenberg</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ich liebe dieses Café, die Atmosphäre ist super angenehm, das Personal sehr freundlich und der Kuchen einfach himmlisch. Es werden auch glutenfreie Optionen angeboten!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Jule Pfeffer</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ich habe ein herzwärmendes Dal gegessen, einen ausgezeichneten Cappuccino genossen und auch die hausgemachte Schokomoussertorte war super lecker. Das junge Personal war sehr freundlich und hilfsbereit. Ich werde ganz sicher wieder kommen.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star empty"></i><i class="fa-regular fa-star empty"></i></div>
+            <p class="review-author">— Roland Zuderell</p>
+          </div>
+          <div class="review-card">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Dies ist ein wunderschönes, gemütliches Café mit einer sehr ruhigen Atmosphäre. Ich habe einen Flat White und ein Pistaziencroissant genossen. Der Kaffee ist von sehr hoher Qualität und das Gebäck superfrisch. Absolut empfehlenswert!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Sadanand Magee</p>
+          </div>
+          <!-- Duplicate for seamless loop -->
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Absolut empfehlenswert! Super Kaffee, noch besseres Essen und überaus freundliches Personal. Ich freue mich schon auf meinen nächsten Besuch!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— K. Niehaus</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Es ist wirklich das EINHEITS-Café! Du nährst Körper, Geist und Seele! Inspirierend, vielversprechend und das ganze Jahr über wie ein Frühling!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Milos Kosti&#263;</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Wirklich schön und gemütlich. Ein Muss für Kaffeeliebhaber. Auch die Desserts sind sehr ausgewogen. Mir gefällt es dort sehr gut.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Nida Akhtar</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ich liebe dieses Café! Die Mitarbeiter sind unglaublich nett und hilfsbereit. Die Atmosphäre ist einfach toll. Ich habe Matcha, Kaffee und Croissant probiert und war begeistert! Unbedingt hingehen, wenn man einen entspannten, ruhigen Ort für einen Kaffee sucht.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Oscar Barrios</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Sehr lecker Burger und Kaffee!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Galya Klimenchuk</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ein super süßes Café mit leckerem Kaffee und nettem Personal. Besonders hervorzuheben sind die kleinen, aber feinen Details, wie zum Beispiel ein großzügiges Glas Eiswürfel zu den abgefüllten Kaltgetränken.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Ditte Østergaard</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Habe mich rundum wohl gefühlt. Man fühlt sich sehr wohl. Man wird herzlichst empfangen... man kann nette Gespräche führen und man fühlt sich einfach entspannt.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Lars Peschke</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ein Ruhepol mit besonderer Atmosphäre. Die ayurvedische Limonade ist der Hit, unglaublich lecker und besonders. Bei den Kuchen ist einer besser als der andere, man merkt, dass hier mit guten Zutaten gearbeitet wird und mit viel Liebe gebacken wird – ich komme auf jeden Fall wieder.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Claudia Dietl</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Sowas von gemütlich und herzlich wie ich es in Berlin noch nie erlebt habe!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Natali Olenberg</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ich liebe dieses Café, die Atmosphäre ist super angenehm, das Personal sehr freundlich und der Kuchen einfach himmlisch. Es werden auch glutenfreie Optionen angeboten!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Jule Pfeffer</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Ich habe ein herzwärmendes Dal gegessen, einen ausgezeichneten Cappuccino genossen und auch die hausgemachte Schokomoussertorte war super lecker. Das junge Personal war sehr freundlich und hilfsbereit. Ich werde ganz sicher wieder kommen.</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star empty"></i><i class="fa-regular fa-star empty"></i></div>
+            <p class="review-author">— Roland Zuderell</p>
+          </div>
+          <div class="review-card" aria-hidden="true">
+            <i class="fa-solid fa-quote-left review-quote-icon"></i>
+            <p class="review-text">Dies ist ein wunderschönes, gemütliches Café mit einer sehr ruhigen Atmosphäre. Ich habe einen Flat White und ein Pistaziencroissant genossen. Der Kaffee ist von sehr hoher Qualität und das Gebäck superfrisch. Absolut empfehlenswert!</p>
+            <div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="review-author">— Sadanand Magee</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Hours + Contact -->
+  <section class="hours-contact" id="hours">
+    <div class="container">
+      <div class="hours-grid">
+        <div class="hours-card reveal" data-delay="0">
+          <p class="section-label">Wann wir da sind</p>
+          <div class="hours-header">
+            <h2>Öffnungszeiten</h2>
+            <i class="fa-solid fa-clock"></i>
+          </div>
+          <table class="hours-table">
+            <tbody id="cms-hours-tbody">
+              <tr>
+                <td>Montag</td>
+                <td><span class="closed-badge">Geschlossen</span></td>
+              </tr>
+              <tr>
+                <td>Dienstag</td>
+                <td><span class="closed-badge">Geschlossen</span></td>
+              </tr>
+              <tr>
+                <td>Mittwoch</td>
+                <td><span class="time-open"><span class="open-dot"></span>10:30 – 18:30</span></td>
+              </tr>
+              <tr>
+                <td>Donnerstag</td>
+                <td><span class="time-open"><span class="open-dot"></span>10:30 – 18:30</span></td>
+              </tr>
+              <tr>
+                <td>Freitag</td>
+                <td><span class="time-open"><span class="open-dot"></span>10:30 – 18:30</span></td>
+              </tr>
+              <tr>
+                <td>Samstag</td>
+                <td><span class="time-open"><span class="open-dot"></span>10:30 – 18:30</span></td>
+              </tr>
+              <tr>
+                <td>Sonntag</td>
+                <td><span class="time-open"><span class="open-dot"></span>10:30 – 18:30</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="contact-card reveal" data-delay="1" id="contact">
+          <p class="section-label">Komm vorbei</p>
+          <h2>Kontakt &amp; Anfahrt</h2>
+          <div class="contact-items">
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+              <div class="contact-info">
+                <label>Adresse</label>
+                <a id="cms-address" href="https://maps.app.goo.gl/krN8ARBoWcPmcat76" target="_blank" rel="noopener">Naugarder Str. 6, 10409 Berlin</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+              <div class="contact-info">
+                <label>Telefon</label>
+                <a id="cms-phone" href="tel:015773469282">01577 3469282</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fa-brands fa-instagram"></i></div>
+              <div class="contact-info">
+                <label>Instagram</label>
+                <a id="cms-instagram" href="https://www.instagram.com/the_oneness_cafe_berlin" target="_blank" rel="noopener">@the_oneness_cafe_berlin</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fa-solid fa-route"></i></div>
+              <div class="contact-info">
+                <label>Anfahrt</label>
+                <a href="https://maps.app.goo.gl/krN8ARBoWcPmcat76" target="_blank" rel="noopener">Route in Google Maps öffnen <i class="fa-solid fa-arrow-right" style="font-size:0.75em;"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-orb-gold"></div>
+    <div class="cta-orb-sage"></div>
+    <div class="container cta-content">
+      <h2 class="reveal" data-delay="0">
+        Bereit für deinen<br>
+        <span class="cta-gold">Moment?</span>
+      </h2>
+      <p class="cta-sub reveal" data-delay="1">Wir freuen uns auf dich — mit einem frisch gebrühten Kaffee in der Hand.</p>
+      <div class="cta-buttons reveal" data-delay="2">
+        <a href="https://maps.app.goo.gl/krN8ARBoWcPmcat76" class="btn btn-primary" target="_blank" rel="noopener">
+          <i class="fa-solid fa-route"></i> Route planen
+        </a>
+        <a href="https://www.instagram.com/the_oneness_cafe_berlin" class="btn btn-ghost" target="_blank" rel="noopener">
+          <i class="fa-brands fa-instagram"></i> Instagram folgen
+        </a>
+      </div>
+    </div>￼
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span class="footer-logo">Oneness Café</span>
+    <div class="footer-links">
+      <a href="https://maps.app.goo.gl/krN8ARBoWcPmcat76" target="_blank" rel="noopener" aria-label="Google Maps">
+        <i class="fa-solid fa-location-dot"></i>
+      </a>
+      <a href="https://www.instagram.com/the_oneness_cafe_berlin" target="_blank" rel="noopener" aria-label="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="tel:015773469282" aria-label="Anrufen">
+        <i class="fa-solid fa-phone"></i>
+      </a>
+    </div>
+    <p class="footer-copy" id="cms-trigger">&copy; 2025 The Oneness Café Berlin &middot; Naugarder Str. 6, 10409 Berlin</p>
+  </footer>
+
+  <!-- CMS Admin Panel -->
+  <div id="cms-overlay" style="display:none;">
+    <div class="cms-panel">
+      <div class="cms-header">
+        <span><i class="fa-solid fa-pen-to-square"></i>Website bearbeiten</span>
+        <button class="cms-close" id="cms-close" aria-label="Schließen"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="cms-tabs">
+        <button class="cms-tab active" data-tab="kontakt">Kontakt</button>
+        <button class="cms-tab" data-tab="zeiten">Öffnungszeiten</button>
+        <button class="cms-tab" data-tab="texte">Texte</button>
+      </div>
+      <div class="cms-body">
+
+        <div class="cms-section active" id="tab-kontakt">
+          <div class="cms-field">
+            <label>Telefonnummer</label>
+            <input type="text" id="cf-phone" placeholder="01577 3469282">
+          </div>
+          <div class="cms-field">
+            <label>Instagram Handle <span style="opacity:.45;font-size:.85em;">(ohne @)</span></label>
+            <input type="text" id="cf-instagram" placeholder="the_oneness_cafe_berlin">
+            <p class="cms-hint">Alle Instagram-Links auf der Seite werden aktualisiert.</p>
+          </div>
+          <div class="cms-field">
+            <label>Adresse (Anzeigetext)</label>
+            <input type="text" id="cf-address" placeholder="Naugarder Str. 6, 10409 Berlin">
+          </div>
+          <div class="cms-field">
+            <label>Google Maps URL</label>
+            <input type="url" id="cf-maps" placeholder="https://maps.app.goo.gl/...">
+            <p class="cms-hint">Alle Route-planen- und Maps-Links auf der Seite werden aktualisiert.</p>
+          </div>
+        </div>
+
+        <div class="cms-section" id="tab-zeiten">
+          <div id="cf-hours"></div>
+        </div>
+
+        <div class="cms-section" id="tab-texte">
+          <div class="cms-field">
+            <label>Hero Untertitel</label>
+            <input type="text" id="cf-hero-sub">
+          </div>
+          <div class="cms-field">
+            <label>Über uns – Erster Absatz</label>
+            <textarea id="cf-about-p1" rows="4"></textarea>
+          </div>
+          <div class="cms-field">
+            <label>Über uns – Zweiter Absatz</label>
+            <textarea id="cf-about-p2" rows="4"></textarea>
+          </div>
+        </div>
+
+      </div>
+      <div class="cms-actions">
+        <button class="cms-btn-save" id="cms-save"><i class="fa-solid fa-floppy-disk"></i> Speichern</button>
+        <button class="cms-btn-cancel" id="cms-cancel">Abbrechen</button>
+      </div>
+    </div>
+  </div>
+  <div id="cms-toast">Gespeichert!</div>
+
+  <script>
+    // Scroll-aware nav
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // Mobile hamburger menu
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileMenu   = document.getElementById('mobileMenu');
+    const mobileClose  = document.getElementById('mobileClose');
+
+    hamburgerBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeMenu() {
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    mobileClose.addEventListener('click', closeMenu);
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          const delay = el.target.dataset.delay || 0;
+          setTimeout(() => el.target.classList.add('visible'), delay * 120);
+          observer.unobserve(el.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ─────────────────────────────────────────
+    // CMS — localStorage-backed content editor
+    // ─────────────────────────────────────────
+    const CMS_KEY = 'oneness-cms';
+
+    const CMS_DEFAULTS = {
+      phone:     '01577 3469282',
+      instagram: 'the_oneness_cafe_berlin',
+      address:   'Naugarder Str. 6, 10409 Berlin',
+      mapsUrl:   'https://maps.app.goo.gl/krN8ARBoWcPmcat76',
+      heroSub:   'Ein Ort voller Herzwärme, Stille & außergewöhnlichem Kaffee',
+      aboutP1:   'Das Oneness Café ist mehr als ein Ort für Kaffee und Kuchen. Es ist ein Refugium mitten in Prenzlauer Berg — ein Ort, an dem du ankommen darfst. Wo jede Tasse mit Sorgfalt zubereitet wird und jedes Stück Kuchen von Herzen kommt.',
+      aboutP2:   'Seit 2022 empfangen wir unsere Gäste mit Wärme, Stille und ehrlichem Handwerk. Kein Trend, kein Lärm — nur das Wesentliche: ein außergewöhnlicher Kaffee, hausgemachte Backwaren und ein Lächeln, das echt ist.',
+      hours: [
+        { day: 'Montag',     open: false, time: '' },
+        { day: 'Dienstag',   open: false, time: '' },
+        { day: 'Mittwoch',   open: true,  time: '10:30 – 18:30' },
+        { day: 'Donnerstag', open: true,  time: '10:30 – 18:30' },
+        { day: 'Freitag',    open: true,  time: '10:30 – 18:30' },
+        { day: 'Samstag',    open: true,  time: '10:30 – 18:30' },
+        { day: 'Sonntag',    open: true,  time: '10:30 – 18:30' }
+      ]
+    };
+
+    function loadCMS() {
+      try {
+        const raw = localStorage.getItem(CMS_KEY);
+        if (!raw) return JSON.parse(JSON.stringify(CMS_DEFAULTS));
+        const stored = JSON.parse(raw);
+        return {
+          ...CMS_DEFAULTS,
+          ...stored,
+          hours: (stored.hours && stored.hours.length === 7)
+            ? stored.hours.map((h, i) => ({ day: CMS_DEFAULTS.hours[i].day, open: h.open, time: h.time }))
+            : CMS_DEFAULTS.hours
+        };
+      } catch(e) {
+        return JSON.parse(JSON.stringify(CMS_DEFAULTS));
+      }
+    }
+
+    function applyCMS(data) {
+      // Text patches
+      const heroSub = document.getElementById('cms-hero-sub');
+      if (heroSub) heroSub.textContent = data.heroSub;
+
+      const p1 = document.getElementById('cms-about-p1');
+      const p2 = document.getElementById('cms-about-p2');
+      if (p1) p1.textContent = data.aboutP1;
+      if (p2) p2.textContent = data.aboutP2;
+
+      // Contact address link
+      const addrEl = document.getElementById('cms-address');
+      if (addrEl) { addrEl.textContent = data.address; addrEl.href = data.mapsUrl; }
+
+      // All phone links
+      document.querySelectorAll('a[href^="tel:"]').forEach(a => {
+        a.href = 'tel:' + data.phone.replace(/\s/g, '');
+        if (!a.querySelector('i')) a.textContent = data.phone;
+      });
+
+      // All Instagram links — update href; only update text on icon-free links
+      document.querySelectorAll('a[href*="instagram.com"]').forEach(a => {
+        a.href = 'https://www.instagram.com/' + data.instagram;
+        if (!a.querySelector('i')) a.textContent = '@' + data.instagram;
+      });
+
+      // All Maps links
+      document.querySelectorAll('a[href*="maps.app.goo.gl"], a[href*="maps.google.com"]').forEach(a => {
+        a.href = data.mapsUrl;
+      });
+
+      // Hours table
+      const tbody = document.getElementById('cms-hours-tbody');
+      if (tbody) {
+        tbody.innerHTML = data.hours.map(h => `
+          <tr>
+            <td>${h.day}</td>
+            <td>${h.open
+              ? `<span class="time-open"><span class="open-dot"></span>${h.time}</span>`
+              : `<span class="closed-badge">Geschlossen</span>`
+            }</td>
+          </tr>`).join('');
+      }
+    }
+
+    // ── Admin Panel ──
+    const cmsOverlay = document.getElementById('cms-overlay');
+    const cmsToast   = document.getElementById('cms-toast');
+
+    function activateTab(name) {
+      document.querySelectorAll('.cms-tab').forEach(t =>
+        t.classList.toggle('active', t.dataset.tab === name));
+      document.querySelectorAll('.cms-section').forEach(s =>
+        s.classList.toggle('active', s.id === 'tab-' + name));
+    }
+
+    function renderHoursAdmin(hours) {
+      const container = document.getElementById('cf-hours');
+      container.innerHTML = hours.map((h, i) => `
+        <div class="cms-hours-row">
+          <span class="cms-day-label">${h.day}</span>
+          <label class="cms-toggle" title="${h.open ? 'Geöffnet' : 'Geschlossen'}">
+            <input type="checkbox" class="hour-open" data-idx="${i}" ${h.open ? 'checked' : ''}>
+            <span class="cms-toggle-slider"></span>
+          </label>
+          <input type="text" class="cms-time-input" data-idx="${i}"
+            value="${h.time}" placeholder="10:30 – 18:30" ${!h.open ? 'disabled' : ''}>
+        </div>`).join('');
+
+      container.querySelectorAll('.hour-open').forEach(cb => {
+        cb.addEventListener('change', () => {
+          const ti = container.querySelector(`.cms-time-input[data-idx="${cb.dataset.idx}"]`);
+          ti.disabled = !cb.checked;
+          if (!cb.checked) ti.value = '';
+          cb.closest('.cms-toggle').title = cb.checked ? 'Geöffnet' : 'Geschlossen';
+        });
+      });
+    }
+
+    function openAdmin() {
+      const data = loadCMS();
+      document.getElementById('cf-phone').value     = data.phone;
+      document.getElementById('cf-instagram').value = data.instagram;
+      document.getElementById('cf-address').value   = data.address;
+      document.getElementById('cf-maps').value      = data.mapsUrl;
+      document.getElementById('cf-hero-sub').value  = data.heroSub;
+      document.getElementById('cf-about-p1').value  = data.aboutP1;
+      document.getElementById('cf-about-p2').value  = data.aboutP2;
+      renderHoursAdmin(data.hours);
+      activateTab('kontakt');
+      cmsOverlay.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeAdmin() {
+      cmsOverlay.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    function saveAdmin() {
+      const rows   = document.querySelectorAll('.cms-hours-row');
+      const hours  = Array.from(rows).map((row, i) => ({
+        day:  CMS_DEFAULTS.hours[i].day,
+        open: row.querySelector('.hour-open').checked,
+        time: row.querySelector('.cms-time-input').value.trim()
+      }));
+
+      const data = {
+        phone:     document.getElementById('cf-phone').value.trim(),
+        instagram: document.getElementById('cf-instagram').value.trim().replace(/^@/, ''),
+        address:   document.getElementById('cf-address').value.trim(),
+        mapsUrl:   document.getElementById('cf-maps').value.trim(),
+        heroSub:   document.getElementById('cf-hero-sub').value.trim(),
+        aboutP1:   document.getElementById('cf-about-p1').value.trim(),
+        aboutP2:   document.getElementById('cf-about-p2').value.trim(),
+        hours
+      };
+
+      localStorage.setItem(CMS_KEY, JSON.stringify(data));
+      applyCMS(data);
+      showToast('Gespeichert!');
+      closeAdmin();
+    }
+
+    function showToast(msg) {
+      cmsToast.textContent = msg;
+      cmsToast.classList.add('show');
+      setTimeout(() => cmsToast.classList.remove('show'), 2800);
+    }
+
+    // Event listeners
+    document.getElementById('cms-save').addEventListener('click', saveAdmin);
+    document.getElementById('cms-cancel').addEventListener('click', closeAdmin);
+    document.getElementById('cms-close').addEventListener('click', closeAdmin);
+    cmsOverlay.addEventListener('click', e => { if (e.target === cmsOverlay) closeAdmin(); });
+    document.querySelectorAll('.cms-tab').forEach(tab => {
+      tab.addEventListener('click', () => activateTab(tab.dataset.tab));
+    });
+
+    // Trigger: click footer copyright 5× within 3 s
+    let cmsClicks = 0, cmsTimer;
+    document.getElementById('cms-trigger').addEventListener('click', () => {
+      cmsClicks++;
+      clearTimeout(cmsTimer);
+      if (cmsClicks >= 5) { cmsClicks = 0; openAdmin(); }
+      else cmsTimer = setTimeout(() => cmsClicks = 0, 3000);
+    });
+
+    // Keyboard shortcut: Ctrl/Cmd + Shift + E
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'E') openAdmin();
+    });
+
+    // Apply saved CMS data on page load
+    applyCMS(loadCMS());
+  </script>
+</body>
+</html>
